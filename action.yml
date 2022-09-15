@@ -7,7 +7,7 @@ inputs:
     default: 'stage'
 outputs:
   medenv:
-    value: ${{steps.manage-key.outputs.medenv}}
+    value: ${{steps.manage-key.outputs.value}}
     description: 'Key maps for the required branch in json format'
 runs:
   using: 'composite'
