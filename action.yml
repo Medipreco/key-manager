@@ -1,0 +1,32 @@
+name: 'medipreco/key-manager'
+description: 'Env Var manager'
+inputs:
+  branch:
+    description: 'The branch name to be used as key'
+    required: true
+    default: 'stage'
+  aws_access_key_id:
+    description: 'AWS access key'
+    required: true
+  aws_secret_access_key:
+    description: 'AWS access secret'
+    required: true
+outputs:
+  medenv:
+    value: ${{steps.manage-key.outputs.medenv}}
+    description: 'Key maps for the required branch'
+runs:
+  using: 'composite'
+  steps:
+    - uses: keithweaver/aws-s3-github-action@v1.0.0
+      id: manage-key
+      with:
+        command: cp
+        source: s3://med-envs/medenvs.json
+        destination: ./medenvs.json
+        aws_access_key_id: ${{inputs.aws_access_key_id}}
+        aws_secret_access_key: ${{inputs.aws_secret_access_key}}
+        aws_region: us-east-1
+      run: |
+        content=$(cat medenvs.json | jq -r ".stage")
+        echo "::set-output name=medenv::$content"
