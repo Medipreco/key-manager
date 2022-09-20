@@ -22,4 +22,4 @@ runs:
       id: manage-key
       with:
         multiline: true
-        cmd: export ENVTESTE='$(jq .stage.test_key medenvs.json -r)' && echo $ENVTESTE 
+        cmd: jq .stage medenvs.json -r
