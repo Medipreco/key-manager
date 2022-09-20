@@ -22,4 +22,4 @@ runs:
       id: manage-key
       with:
         multiline: true
-        cmd: jq .stage medenvs.json -r
+        cmd: echo $(jq .stage medenvs.json -r)
